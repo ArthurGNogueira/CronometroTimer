@@ -20,6 +20,7 @@ button{
     font-family: 'Roboto', sans-serif;
     color: white;
     font-size: 24px;
+    cursor: pointer;
 }
 *{
     outline: none;
@@ -39,6 +40,10 @@ button{
     grid-column-start: 4;
     grid-column-end: 7;
     grid-row-start: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: end;
 }
 .keyboard ul li{
     width: 110px;
@@ -49,6 +54,7 @@ button{
     background-color: none;
     font-size: 26px;
     font-weight: bold;
+    cursor: pointer;
 }
 .keyboard ul li:hover{
     background: black;
@@ -172,6 +178,9 @@ button{
 {
     .container{
         grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 80px 320px 70px 20px
+
+
     }
     .switch{
         grid-column-start: 3;
