@@ -3,52 +3,79 @@ digits.forEach(digit => {
     digit.addEventListener('click', () => {
 
         displayUpdate(digit.textContent);
-        console.log(digit.textContent);
     });
 });
 
 var arrayDigits = [];
 const display = document.querySelectorAll('.display ul li span');
-let hours = display[0];
-let minutes = display[1];
-let seconds = display[2];
+let display_hours = display[0];
+let display_minutes = display[1];
+let display_seconds = display[2];
+var timeInSeconds = 0
 
 function displayUpdate(digit){
    
     if(arrayDigits.length <6){
 
         arrayDigits.push(digit);
-        console.log(arrayDigits);
-        console.log(`O Array é ${arrayDigits}`);
+
         let i = arrayDigits.length;
         if(arrayDigits[1] === undefined){
-            seconds.innerText = arrayDigits[i - 1];
+            display_seconds.innerText = arrayDigits[i - 1];
         }else{
-            seconds.innerText = arrayDigits[i - 2] + arrayDigits[i - 1];
+            display_seconds.innerText = arrayDigits[i - 2] + arrayDigits[i - 1];
         }
 
         if(arrayDigits[2] !== undefined){
-            minutes.innerText = arrayDigits[i - 3]
+            display_minutes.innerText = arrayDigits[i - 3]
         }
 
         if(arrayDigits[3] !==  undefined){
-            minutes.innerText = arrayDigits[i - 4] + arrayDigits[i - 3]
+            display_minutes.innerText = arrayDigits[i - 4] + arrayDigits[i - 3]
 
         }
 
         if(arrayDigits[4] !== undefined){
-            hours.innerText = arrayDigits[i - 5]
+            display_hours.innerText = arrayDigits[i - 5]
         }
         if(arrayDigits[5] !==  undefined){
-            hours.innerText = arrayDigits[i - 6] + arrayDigits[i - 5]
+            display_hours.innerText = arrayDigits[i - 6] + arrayDigits[i - 5]
 
         }
+
+        adjust()
+
     }
-    
-    console.log(`${hours} Horas ${minutes} Minutos ${seconds} Segundos`);
+    // console.log(display_hours.textContent + 'h', display_minutes.textContent + 'm', display_seconds.textContent + 's');
 }
 
-function start(){
-    minutes += seconds / 60;
+function adjust(){
+    let hours = Number(display_hours.textContent);
+    let minutes = Number(display_minutes.textContent);
+    let seconds = Number(display_seconds.textContent);
+
+    minutes += Math.floor(seconds / 60); 
     seconds = seconds % 60;
+
+    hours += Math.floor(minutes / 60);
+    minutes = minutes % 60;
+
+    console.log(`AJUSTADO ${hours} Horas ${minutes} Minutos ${seconds} Segundos`);
+    let hourInSeconds = hours * 3600;
+    let minutesInSeconds = minutes * 60;
+    timeInSeconds = hourInSeconds + minutesInSeconds + seconds;
+}
+
+const btnStart = document.querySelector('.start');
+btnStart.addEventListener('click',() => {
+    start(timeInSeconds);
+})
+
+function start(timeInSeconds){
+
+    const time = setInterval(() =>{
+        alert(`se passaram ${timeInSeconds} segundos`);
+        clearInterval(time);
+    },timeInSeconds* 1000);
+
 }
