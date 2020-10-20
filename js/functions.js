@@ -69,12 +69,17 @@ function adjust(){
 const btnStart = document.querySelector('.start');
 btnStart.addEventListener('click',() => {
     start(timeInSeconds);
+    const timeContainer = document.querySelector('.time_container');
+    timeContainer.style.top = "0";
 })
 
 function start(timeInSeconds){
 
     const time = setInterval(() =>{
-        alert(`se passaram ${timeInSeconds} segundos`);
+        const timer = document.querySelector('.cronometro');
+        timer.innerText = hours;
+
+        // alert(`se passaram ${timeInSeconds} segundos`);
         clearInterval(time);
     },timeInSeconds* 1000);
 
