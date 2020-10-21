@@ -59,8 +59,7 @@ function adjust(){
     minutes = minutes % 60;
 
     console.log(`AJUSTADO ${hours} Horas ${minutes} Minutos ${seconds} Segundos`);
-    let ajustedTime = `${hours.toString()}h ${minutes.toString()}m ${seconds.toString()}s`;
-    console.log(ajustedTime);
+    let ajustedTime = [hours,minutes,seconds];
     let hourInSeconds = hours * 3600;
     let minutesInSeconds = minutes * 60;
     timeInSeconds = hourInSeconds + minutesInSeconds + seconds;
@@ -78,15 +77,48 @@ btnStart.addEventListener('click',() => {
 })
 
 function start(ajusted){
-    let ajustedTime = ajusted[0];
-    let timeInSeconds = ajusted[1]
+    let hours = ajusted[0][0];
+    let minutes = ajusted[0][1];
+    let seconds = ajusted[0][2];
 
-    const timer = document.querySelector('.cronometro');
-    const times = setInterval(() =>{
-        timer.innerText = ajustedTime;
-        alert(`se passaram ${timeInSeconds} segundos`);
-        setTimeout()
-        clearInterval(time);
+    let timeInSeconds = ajusted[1]
+    let second = 1
+
+    const timer = document.querySelector('.cronometro').childNodes;
+
+    timer[0].innerText = hours;
+    timer[2].innerText = minutes;
+    timer[4].innerText = seconds;
+
+    const update = setInterval(() =>{
+        if(seconds == 0){
+            if(minutes == 0){
+                if(hours == 0){
+                    console.log('fim');
+                }else{
+                    hours --;
+                    minutes = 59;
+                    timer[0].innerText = hours;
+                    timer[2].innerText = minutes;
+
+                }
+            }else{
+                minutes --;
+                seconds = 59;
+                timer[2].innerText = minutes;
+                timer[4].innerText = seconds;
+
+            }
+        }
+        else{
+            seconds --;
+            timer[4].innerText = seconds;
+        }
+        
+        console.log(`se passaram ${second ++} segundos`);
     },1000);
 
+    const time = setTimeout(()=>{
+        clearInterval(update);
+    },timeInSeconds * 1000)
 }
