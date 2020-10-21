@@ -43,8 +43,6 @@ function displayUpdate(digit){
 
         }
 
-        adjust()
-
     }
     // console.log(display_hours.textContent + 'h', display_minutes.textContent + 'm', display_seconds.textContent + 's');
 }
@@ -61,26 +59,34 @@ function adjust(){
     minutes = minutes % 60;
 
     console.log(`AJUSTADO ${hours} Horas ${minutes} Minutos ${seconds} Segundos`);
+    let ajustedTime = `${hours.toString()}h ${minutes.toString()}m ${seconds.toString()}s`;
+    console.log(ajustedTime);
     let hourInSeconds = hours * 3600;
     let minutesInSeconds = minutes * 60;
     timeInSeconds = hourInSeconds + minutesInSeconds + seconds;
+
+    return [ajustedTime, timeInSeconds];
 }
 
 const btnStart = document.querySelector('.start');
 btnStart.addEventListener('click',() => {
-    start(timeInSeconds);
+    let ajusted = adjust();
+    start(ajusted);
     const timeContainer = document.querySelector('.time_container');
     timeContainer.style.top = "0";
+
 })
 
-function start(timeInSeconds){
+function start(ajusted){
+    let ajustedTime = ajusted[0];
+    let timeInSeconds = ajusted[1]
 
-    const time = setInterval(() =>{
-        const timer = document.querySelector('.cronometro');
-        timer.innerText = hours;
-
-        // alert(`se passaram ${timeInSeconds} segundos`);
+    const timer = document.querySelector('.cronometro');
+    const times = setInterval(() =>{
+        timer.innerText = ajustedTime;
+        alert(`se passaram ${timeInSeconds} segundos`);
+        setTimeout()
         clearInterval(time);
-    },timeInSeconds* 1000);
+    },1000);
 
 }
