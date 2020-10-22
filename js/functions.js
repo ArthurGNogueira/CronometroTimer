@@ -11,16 +11,23 @@ document.addEventListener('keydown', (event) => {
     // alert('keydown event\n\n' + 'key: ' + keyName);
     if(Number(keyName)>= 0){
         displayUpdate(keyName);
-
     }
-
 });
-var arrayDigits = [];
+
 const display = document.querySelectorAll('.display ul li span');
 let display_hours = display[0];
 let display_minutes = display[1];
 let display_seconds = display[2];
+
 var timeInSeconds = 0
+var arrayDigits = [];
+
+const btnDisplay = document.querySelectorAll('.btn_display');
+btnDisplay.forEach(btn => {
+    btn.addEventListener('click',()=>{
+        console.log(btn.id);
+    });
+});
 
 function displayUpdate(digit){
    
