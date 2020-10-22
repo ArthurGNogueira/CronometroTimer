@@ -6,6 +6,15 @@ digits.forEach(digit => {
     });
 });
 
+document.addEventListener('keydown', (event) => {
+    const keyName = event.key;
+    // alert('keydown event\n\n' + 'key: ' + keyName);
+    if(Number(keyName)>= 0){
+        displayUpdate(keyName);
+
+    }
+
+});
 var arrayDigits = [];
 const display = document.querySelectorAll('.display ul li span');
 let display_hours = display[0];
@@ -75,7 +84,7 @@ btnStart.addEventListener('click',() => {
     timeContainer.style.top = "0";
 
 })
-
+const audioAlarm = document.querySelector('.audio_alarm');
 function start(ajusted){
     let hours = ajusted[0][0];
     let minutes = ajusted[0][1];
@@ -94,7 +103,7 @@ function start(ajusted){
         if(seconds == 0){
             if(minutes == 0){
                 if(hours == 0){
-                    console.log('fim');
+                    //fim
                 }else{
                     hours --;
                     minutes = 59;
@@ -119,6 +128,8 @@ function start(ajusted){
     },1000);
 
     const time = setTimeout(()=>{
+        console.log('fim');
+        audioAlarm.play();
         clearInterval(update);
     },timeInSeconds * 1000)
 }
