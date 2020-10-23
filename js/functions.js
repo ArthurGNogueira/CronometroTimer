@@ -22,10 +22,52 @@ let display_seconds = display[2];
 var timeInSeconds = 0
 var arrayDigits = [];
 
+const audioScroll = document.querySelector('.audio_effectScroll');
+
+display.forEach(num =>{
+    num.addEventListener('wheel',(event)=>{
+        var y = event.deltaY;
+        audioScroll.play();
+        if(y>0){
+            document.querySelector(`#${num.className}m`).click();
+        }else{
+            document.querySelector(`#${num.className}p`).click();
+        }
+        // console.log(num.className);
+    })
+})
+
+
 const btnDisplay = document.querySelectorAll('.btn_display');
 btnDisplay.forEach(btn => {
     btn.addEventListener('click',()=>{
-        console.log(btn.id);
+        switch(btn.id){
+            case 'hp':
+                display_hours.innerText = Number(display_hours.textContent) + 1;
+            break;
+            case 'hm':
+                if(Number(display_hours.textContent) > 0){
+                display_hours.innerText = Number(display_hours.textContent) - 1;
+                }
+            break;
+            case 'mp':
+                display_minutes.innerText = Number(display_minutes.textContent) + 1;
+            break;
+            case 'mm':
+                if(Number(display_minutes.textContent) > 0){
+                display_minutes.innerText = Number(display_minutes.textContent) - 1;
+                }
+            break;
+            case 'sp':
+                display_seconds.innerText = Number(display_seconds.textContent) + 1;
+            break;
+            case 'sm':
+                if(Number(display_seconds.textContent) > 0){
+                    display_seconds.innerText = Number(display_seconds.textContent) - 1;
+                }
+            break;
+        }
+        // console.log(btn.id);
     });
 });
 
