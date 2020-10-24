@@ -37,13 +37,12 @@ display.forEach(num =>{
     })
 })
 
-
 const btnDisplay = document.querySelectorAll('.btn_display');
 btnDisplay.forEach(btn => {
     btn.addEventListener('click',()=>{
         switch(btn.id){
             case 'hp':
-                display_hours.innerText = Number(display_hours.textContent) + 1;
+                display_hours.innerText = Number(display_hours.textContent) + 1;               
             break;
             case 'hm':
                 if(Number(display_hours.textContent) > 0){
@@ -79,28 +78,33 @@ function displayUpdate(digit){
 
         let i = arrayDigits.length;
         if(arrayDigits[1] === undefined){
-            display_seconds.innerText = arrayDigits[i - 1];
+            number = arrayDigits[i - 1];
+            display_seconds.innerText = number.padStart(2, '0');
+
         }else{
-            display_seconds.innerText = arrayDigits[i - 2] + arrayDigits[i - 1];
+            number = arrayDigits[i - 2] + arrayDigits[i - 1];
+            display_seconds.innerText = number.padStart(2, '0');
         }
 
         if(arrayDigits[2] !== undefined){
-            display_minutes.innerText = arrayDigits[i - 3]
+            number = arrayDigits[i - 3];
+            display_minutes.innerText = number.padStart(2, '0');
         }
 
         if(arrayDigits[3] !==  undefined){
-            display_minutes.innerText = arrayDigits[i - 4] + arrayDigits[i - 3]
-
+            number = arrayDigits[i - 4] + arrayDigits[i - 3]
+            display_minutes.innerText = number.padStart(2, '0');
         }
 
         if(arrayDigits[4] !== undefined){
-            display_hours.innerText = arrayDigits[i - 5]
+            number = arrayDigits[i - 5];
+            display_hours.innerText = number.padStart(2, '0');
         }
         if(arrayDigits[5] !==  undefined){
-            display_hours.innerText = arrayDigits[i - 6] + arrayDigits[i - 5]
+            number = arrayDigits[i - 6] + arrayDigits[i - 5];
+            display_hours.innerText = number.padStart(2, '0');
 
         }
-
     }
     // console.log(display_hours.textContent + 'h', display_minutes.textContent + 'm', display_seconds.textContent + 's');
 }
@@ -130,7 +134,10 @@ btnStart.addEventListener('click',() => {
     let ajusted = adjust();
     start(ajusted);
     const timeContainer = document.querySelector('.time_container');
+    // timeContainer.classList.add('.bounce-in-top');
     timeContainer.style.top = "0";
+    timeContainer.style.animation= "bounce-in-top 1s both";
+
 
 })
 const audioAlarm = document.querySelector('.audio_alarm');
@@ -182,3 +189,9 @@ function start(ajusted){
         clearInterval(update);
     },timeInSeconds * 1000)
 }
+const func = document.querySelector('.function');
+
+const menu = document.querySelector('.menu');
+menu.addEventListener('mouseenter',() => {
+    func.classList.add('active','slide-in-bottom')
+})

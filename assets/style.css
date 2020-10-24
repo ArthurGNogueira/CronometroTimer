@@ -1,3 +1,5 @@
+@import "animations.css";
+
 body,
 ul,
 li,
@@ -13,9 +15,9 @@ p{
 a{
     text-decoration: none;
 }
-button{
+.btn{
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: 20px;
     background: black;
     font-family: 'Roboto', sans-serif;
     color: white;
@@ -47,6 +49,16 @@ button{
 }
 .btn_display{
     display: block;
+    border: none;
+    background: none;
+    width: 50px;
+    height: 50px;
+}
+#hp, #mp, #sp {
+    transform: rotate(180deg);
+}
+svg{
+    opacity: 0.5;
 }
 .keyboard ul li{
     width: 100px;
@@ -97,9 +109,28 @@ button{
     z-index: 1;
 }
 .menu{
+    width: 100%;
+    height: 100px;
+    padding: 50px;
     grid-column-start: 5;
     grid-column-end: 6;
     grid-row-start: 4;
+    background: none;
+}
+.footer{
+    display: flex; 
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    bottom: 0px
+}
+.function{
+    display: none;
+    border: solid 5px black;
+    border-radius: 20px;
+}
+.active{
+    display: initial; 
 }
 .time_container{
     width: 100%; height: 100vh;
@@ -112,15 +143,15 @@ button{
     align-items: center;
     justify-content:center ;
     top: -1080px;
-    transition: 1s;
 }
+  
 .divBtn{
     width: 312px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;   
 }
-.divBtn>button{
+.divBtn>.btn{
     margin: 3px;
 }
 .cronometro{
@@ -129,6 +160,7 @@ button{
 .btnPause{
     width: 312px;
 }
+
 .btnDel, .btnSave{
     width: 150px;
 }
@@ -285,3 +317,4 @@ button{
         font-size: 2.5rem;
     }
 }
+
