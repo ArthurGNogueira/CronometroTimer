@@ -142,6 +142,7 @@ btnStart.addEventListener('click',() => {
 })
 const audioAlarm = document.querySelector('.audio_alarm');
 function start(ajusted){
+    console.log(ajusted);
     let hours = ajusted[0][0];
     let minutes = ajusted[0][1];
     let seconds = ajusted[0][2];
@@ -187,11 +188,42 @@ function start(ajusted){
         console.log('fim');
         audioAlarm.play();
         clearInterval(update);
-    },timeInSeconds * 1000)
-}
-const func = document.querySelector('.function');
+    },timeInSeconds * 1000);
 
-const menu = document.querySelector('.menu');
+    const pause = document.querySelector('.btnPause');
+    pause.addEventListener('click',()=>{
+        pause.classList.toggle('pause-active');
+        if(pause.classList.contains('pause-active')){
+            clearInterval(update);
+            clearTimeout(time);
+            console.log('ativo')
+        }else{
+            console.log('não ativo')
+            clearInterval(update);
+            clearTimeout(time);
+            let newTime = timeInSeconds - second;
+            console.log(hours,minutes,seconds,newTime);
+            start([[hours,minutes,seconds],newTime]);
+        }
+        
+    })
+}
+
+const func = document.querySelector('.function');
+const menu = document.querySelector('.menu>svg');
 menu.addEventListener('mouseenter',() => {
-    func.classList.add('active','slide-in-bottom')
-})
+    func.classList.remove('slide-out-bottom');
+    func.classList.add('active','slide-in-bottom');
+    menu.style.opacity = "0";
+});
+func.addEventListener('click',() => {
+    func.classList.remove('slide-in-bottom');
+
+    const slideOut = setTimeout(()=>{
+        func.classList.add('slide-out-bottom');
+    },1000)
+    menu.style.opacity = "0.5";
+    const timeActive = setTimeout(()=>{
+        func.classList.remove('active');
+    },2 * 1000)
+});

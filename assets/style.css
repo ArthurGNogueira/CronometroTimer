@@ -1,5 +1,7 @@
 @import "animations.css";
-
+html{
+    overflow-y:hidden;
+}
 body,
 ul,
 li,
@@ -27,7 +29,6 @@ a{
 }
 *{
     outline: none;
-    border-radius: 10px;
 }
 
 .container{
@@ -128,6 +129,18 @@ svg{
     display: none;
     border: solid 5px black;
     border-radius: 20px;
+}
+.func{
+    border: solid 5px black;
+    border-radius: 10px;
+}
+.func_active{
+    background: none;
+    color: black;
+    border: none
+}
+.func:hover{
+    transform: none;
 }
 .active{
     display: initial; 
