@@ -6,12 +6,21 @@ digits.forEach(digit => {
     });
 });
 
-document.addEventListener('keydown', (event) => {
-    const keyName = event.key;
+const btnStart = document.querySelector('.start');
+//sp- space/pause
+var keySP = btnStart;
+document.addEventListener('keydown', (e) => {
+
+    if(e.keyCode === 32 || e.keyCode === 13){
+        e.preventDefault();
+        keySP.click();
+    }
+
+    const keyName = e.key;
     // alert('keydown event\n\n' + 'key: ' + keyName);
     if(Number(keyName)>= 0){
         displayUpdate(keyName);
-    }
+    };
 });
 
 const display = document.querySelectorAll('.display ul li span');
@@ -129,26 +138,37 @@ function adjust(){
     return [ajustedTime, timeInSeconds];
 }
 
-const btnStart = document.querySelector('.start');
+const timeContainer = document.querySelector('.time_container');
 btnStart.addEventListener('click',() => {
+    pause.disabled = true;
+    btnDel.disabled = true;
+
+    const enablePause = setTimeout(()=>{
+        pause.disabled = false;
+        btnDel.disabled = false;
+    },500);
     let ajusted = adjust();
     start(ajusted);
-    const timeContainer = document.querySelector('.time_container');
     // timeContainer.classList.add('.bounce-in-top');
     timeContainer.style.top = "0";
-    timeContainer.style.animation= "bounce-in-top 1s both";
+    timeContainer.style.animation = "bounce-in-top 1s both";
 
 
 })
 const audioAlarm = document.querySelector('.audio_alarm');
+
+const pause = document.querySelector('.btnPause');
+
 function start(ajusted){
+    pause.disabled = false;
+    keySP = pause;
     console.log(ajusted);
     let hours = ajusted[0][0];
     let minutes = ajusted[0][1];
     let seconds = ajusted[0][2];
 
     let timeInSeconds = ajusted[1]
-    let second = 1
+    let second = 0;
 
     const timer = document.querySelector('.cronometro').childNodes;
 
@@ -156,58 +176,86 @@ function start(ajusted){
     timer[2].innerText = minutes;
     timer[4].innerText = seconds;
 
-    const update = setInterval(() =>{
-        if(seconds == 0){
-            if(minutes == 0){
-                if(hours == 0){
-                    //fim
+    
+    function timeStart(){
+            update = setInterval(() =>{
+            if(seconds == 0){
+                if(minutes == 0){
+                    if(hours == 0){
+                        //fim
+                    }else{
+                        hours --;
+                        minutes = 59;
+                        timer[0].innerText = hours;
+                        timer[2].innerText = minutes;
+    
+                    }
                 }else{
-                    hours --;
-                    minutes = 59;
-                    timer[0].innerText = hours;
+                    minutes --;
+                    seconds = 59;
                     timer[2].innerText = minutes;
-
+                    timer[4].innerText = seconds;
+    
                 }
-            }else{
-                minutes --;
-                seconds = 59;
-                timer[2].innerText = minutes;
-                timer[4].innerText = seconds;
-
             }
-        }
-        else{
-            seconds --;
-            timer[4].innerText = seconds;
-        }
-        
-        console.log(`se passaram ${second ++} segundos`);
-    },1000);
+            else{
+                seconds --;
+                timer[4].innerText = seconds;
+            }
+            second ++;
+        },1000);
 
-    const time = setTimeout(()=>{
-        console.log('fim');
-        audioAlarm.play();
-        clearInterval(update);
-    },timeInSeconds * 1000);
+        time = setTimeout(()=>{
+            audioAlarm.play();
+            clearInterval(update);
+            pause.disabled = true;
+        },timeInSeconds * 1000);
+    };
+    
+    timeStart();
 
-    const pause = document.querySelector('.btnPause');
+    var stop = false;
     pause.addEventListener('click',()=>{
-        pause.classList.toggle('pause-active');
-        if(pause.classList.contains('pause-active')){
+        pause.disabled = true;
+        btnDel.disabled = true;
+
+        const enablePause = setTimeout(()=>{
+            pause.disabled = false;
+            btnDel.disabled = false;
+        },500)
+        stop = !stop;
+
+        if(stop == true){
             clearInterval(update);
             clearTimeout(time);
-            console.log('ativo')
+            timeInSeconds = timeInSeconds - second;
+            second = 0;
+            pause.textContent = 'Continuar'
         }else{
-            console.log('não ativo')
-            clearInterval(update);
-            clearTimeout(time);
-            let newTime = timeInSeconds - second;
-            console.log(hours,minutes,seconds,newTime);
-            start([[hours,minutes,seconds],newTime]);
+            timeStart();
+            pause.textContent = 'Pausar'
         }
         
     })
 }
+
+const btnDel = document.querySelector('.btnDel');
+btnDel.addEventListener('click',()=>{
+    clearInterval(update);
+    clearTimeout(time);
+    pause.textContent = 'Pausar'
+    btnStart.disabled = true;
+
+    timeContainer.style.animation = "slide-out-top 1.0s";
+    const slideOutTop = setTimeout(()=>{
+        timeContainer.style.top = "-1080px";
+
+    },1000) 
+    const enableStart = setTimeout(()=>{
+        btnStart.disabled = false;
+    },1700)
+
+})
 
 const func = document.querySelector('.function');
 const menu = document.querySelector('.menu>svg');
